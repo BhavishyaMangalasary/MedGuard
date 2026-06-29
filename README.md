@@ -27,6 +27,55 @@ clinical training.
 
 ---
 
+## Sample Input & Output
+
+**Input** — typed conversationally by the user:
+```
+My mom takes the following medications from two different doctors.
+From Dr. Patel (cardiologist):
+
+Warfarin 5mg, once daily in the evening
+Last filled 25 days ago, 30 day supply
+
+From Dr. Nguyen (primary care):
+
+Ibuprofen 400mg, up to 3 times daily as needed for joint pain
+Lisinopril 10mg, once daily in the morning, last filled 28 days ago, 30 day supply
+Metformin 500mg, twice daily with meals, last filled 20 days ago, 30 day supply
+```
+
+**Output** — MedGuard's daily brief:
+```
+============================================================
+YOUR MEDGUARD DAILY BRIEF
+
+URGENT
+Your mom is taking Warfarin and Ibuprofen. This combination
+significantly increases the risk of serious bleeding. Do not
+give Ibuprofen until you have spoken to a pharmacist or doctor.
+Lisinopril will run out in 2 days. Please contact Dr. Nguyen
+for a refill today.
+
+TODAY'S SCHEDULE
+Morning:   Lisinopril 10mg, Metformin 500mg (with breakfast)
+Evening:   Metformin 500mg (with dinner), Warfarin 5mg
+As Needed: Ibuprofen 400mg — Do not take until you speak to
+a pharmacist or doctor.
+
+WATCH FOR
+🔶 MODERATE — Lisinopril & Ibuprofen: Can affect kidney
+function especially in older adults.
+[Source: Lisinopril FDA label -- Drug Interactions]
+REFILLS NEEDED SOON
+Warfarin: Will run out in 5 days.
+
+DISCLAIMER
+This brief is informational only, based on FDA label data
+fetched live from api.fda.gov. It is not a substitute for
+advice from a pharmacist or doctor.
+```
+---
+
 ## How It Works
 
 MedGuard runs a 4-agent pipeline using Google ADK:
@@ -85,7 +134,11 @@ User input (plain text medication list)
 
 MedGuard uses the [openFDA Drug Label API](https://open.fda.gov/apis/drug/label/)
 — free, public, no API key required, updated weekly directly from FDA
-submissions. Labels are fetched live on every run.
+submissions. Labels are fetched live on every run — never cached or stale.
+
+The NIH's RxNav Drug-Drug Interaction API was discontinued in January 2024,
+which is why MedGuard reasons over raw FDA label text rather than querying
+a precomputed interaction database.
 
 ---
 
