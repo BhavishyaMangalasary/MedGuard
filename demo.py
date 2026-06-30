@@ -76,7 +76,6 @@ def get_user_input() -> tuple[str, str]:
     print("=" * 60)
 
     print("\nWho are you managing medications for?")
-    print("(e.g. 'myself', 'my mom', 'Janet')\n")
     patient_name = input("> ").strip()
 
     if not patient_name:
