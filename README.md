@@ -115,7 +115,6 @@ Record saved for janet.
 ============================================================
 
 Who are you managing medications for?
-(e.g. 'myself', 'my mom', 'Janet')
 
 > Janet
 
