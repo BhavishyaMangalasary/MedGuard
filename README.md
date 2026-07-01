@@ -31,49 +31,105 @@ clinical training.
 
 **Input** — typed conversationally by the user:
 ```
-My mom takes the following medications from two different doctors.
-From Dr. Patel (cardiologist):
+============================================================
+  Welcome to MedGuard - Medication Safety Assistant
+============================================================
 
-Warfarin 5mg, once daily in the evening
-Last filled 25 days ago, 30 day supply
+Who are you managing medications for?
+
+> janet
+
+Please enter janet's medication list below.
+Include drug name, dose, frequency, which doctor
+prescribed it, days supply, and last fill date if known.
+
+Type DONE on a new line when finished.
+
+From Dr. Patel (cardiologist):
+- Warfarin 5mg, once daily in the evening, last filled 25 days ago, 30 day supply
 
 From Dr. Nguyen (primary care):
+- Ibuprofen 400mg, up to 3 times daily as needed for joint pain
+- Lisinopril 10mg, once daily in the morning, last filled 28 days ago, 30 day supply
+- Metformin 500mg, twice daily with meals, last filled 20 days ago, 30 day supply
+DONE
 
-Ibuprofen 400mg, up to 3 times daily as needed for joint pain
-Lisinopril 10mg, once daily in the morning, last filled 28 days ago, 30 day supply
-Metformin 500mg, twice daily with meals, last filled 20 days ago, 30 day supply
+Analyzing janet's medication list...
 ```
 
 **Output** — MedGuard's daily brief:
 ```
 ============================================================
-YOUR MEDGUARD DAILY BRIEF
+  MEDGUARD DAILY BRIEF — JANET
+============================================================
 
-URGENT
-Your mom is taking Warfarin and Ibuprofen. This combination
-significantly increases the risk of serious bleeding. Do not
-give Ibuprofen until you have spoken to a pharmacist or doctor.
-Lisinopril will run out in 2 days. Please contact Dr. Nguyen
-for a refill today.
+Here is your daily brief for Janet:
 
-TODAY'S SCHEDULE
-Morning:   Lisinopril 10mg, Metformin 500mg (with breakfast)
-Evening:   Metformin 500mg (with dinner), Warfarin 5mg
-As Needed: Ibuprofen 400mg — Do not take until you speak to
-a pharmacist or doctor.
+1.  URGENT
+    Janet is taking Warfarin (a blood thinner) and Ibuprofen (an NSAID). Taking these medications together significantly increases the risk of major or fatal bleeding. **Contact a pharmacist or doctor today to discuss this.**
 
-WATCH FOR
-🔶 MODERATE — Lisinopril & Ibuprofen: Can affect kidney
-function especially in older adults.
-[Source: Lisinopril FDA label -- Drug Interactions]
-REFILLS NEEDED SOON
-Warfarin: Will run out in 5 days.
+    Lisinopril 10mg: Will run out in 2 days. Please arrange a refill today.
 
-DISCLAIMER
-This brief is informational only, based on FDA label data
-fetched live from api.fda.gov. It is not a substitute for
-advice from a pharmacist or doctor.
+2.  TODAY'S SCHEDULE
+    **Morning**
+    *   Lisinopril 10mg
+    *   Metformin 500mg (with breakfast)
+
+    **Afternoon**
+    *   *(No scheduled medications)*
+
+    **Evening**
+    *   Metformin 500mg (with dinner)
+    *   Warfarin 5mg
+
+    **Bedtime**
+    *   *(No scheduled medications)*
+
+    **As Needed**
+    *   Ibuprofen 400mg (up to 3 times daily for joint pain) - Do not take until you speak to a pharmacist or doctor.
+
+3.  WATCH FOR
+    *   🔶 MODERATE - Taking Warfarin with other drugs that increase bleeding risk, such as Ibuprofen, can further increase the chance of bleeding.
+        [Source: Warfarin FDA label -- Drug Interactions]
+    *   🔶 MODERATE - Ibuprofen, an NSAID, carries a warning about severe stomach bleeding. The risk is higher when taken with blood thinning (anticoagulant) drugs like Warfarin.
+        [Source: Ibuprofen FDA label -- Warnings]
+    *   🔶 MODERATE - Co-administration of Lisinopril with NSAIDs, including Ibuprofen, may result in deterioration of kidney function, including possible acute renal failure.
+        [Source: Lisinopril FDA label -- Drug Interactions]
+
+4.  REFILLS NEEDED SOON
+    *   Warfarin 5mg: Will run out in 5 days.
+
+5.  DISCLAIMER
+    This brief is informational only, based on FDA label data fetched live from api.fda.gov. It is not a substitute for advice from a pharmacist or doctor.
+
+Save this medication list for next time? (yes/no)
+> YES
+Record saved for janet.
+✓ Record saved for janet.
 ```
+
+**Returning User**:
+```
+============================================================
+  Welcome to MedGuard - Medication Safety Assistant
+============================================================
+
+Who are you managing medications for?
+(e.g. 'myself', 'my mom', 'Janet')
+
+> Janet
+
+Found a saved record for Janet.
+1. Load saved record
+2. Enter a new list
+
+> 1
+
+Loading Janet's saved medication list...
+
+Analyzing Janet's medication list...
+```
+
 ---
 
 ## How It Works
@@ -127,6 +183,9 @@ User input (plain text medication list)
 - **Citations** — every finding traced back to the exact FDA label section
 - **Confidence levels** — ⚠️ CRITICAL, 🔶 MODERATE, ℹ️ INFORMATIONAL
 - **Live FDA data** — fetched fresh from api.fda.gov on every run, never stale
+- **Save & load patient records** -- medication lists are saved
+  encrypted to disk and loaded automatically next time you enter
+  the same patient name -- no need to retype the full list
 
 ---
 
